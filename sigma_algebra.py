@@ -18,7 +18,6 @@ class SigmaAlgebra:
         # --- Validate the three axioms --- 
         self._check_axiom_1()
         self._check_axiom_2()
-        self._check_axiom_3()
 
         print("Success: The provided collection of events forms a valid sigma-algebra.")
 

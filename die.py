@@ -2,7 +2,7 @@ import math
 from itertools import chain, combinations
 from probability_space import ProbabilitySpace
 from sigma_algebra import SigmaAlgebra
-
+from expectation import *
 # --- Part 1: Define the sample space and the collection of events (sigma algebra) --- 
 
 # Define the sample space for the die roll
@@ -32,7 +32,7 @@ try:
     # --- Part 3: validate the probability axioms ---
 
     print("--- Checking probability Axioms ---")
-    probabilities = {outcome: 1.6 for outcome in outcomes}
+    probabilities = {outcome: 1/6 for outcome in outcomes}
 
     # Create an instance of ProbabilitySpace
     die_roll = ProbabilitySpace(sample_space=outcomes, prob_distribution=probabilities)
@@ -63,4 +63,17 @@ try:
 
 except ValueError as e:
     print(f"\n An error occured: {e}")
+
+
+die_dist = {i : 1/6 for i in range(1,7)}
+
+exp_standard = calculate_expectation(die_dist)
+print(f"Standard expectation: {exp_standard:.2f}")
+
+exp_tail_sum = calculate_tail_sum_expectation(die_dist)
+print(f"Tail Sum Expectation: {exp_tail_sum:.2f}")
+
+assert math.isclose(exp_standard, exp_tail_sum)
+print("Both methods yield the same result.\n")
+
 
