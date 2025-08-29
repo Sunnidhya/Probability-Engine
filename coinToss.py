@@ -1,30 +1,23 @@
 from bernoulli_process import BernoulliProcess
 
+true_p = 0.6
+process = BernoulliProcess(p = true_p)
 
-# -- Simulation Setup ---
+# A list of tiral numbers, increasing exponentially
 
-# probability of succes (Heads)
-p_heads = 0.6
+trial_counts = [10,100,1000,10000]
 
-# Numbe rof coin flips
-num_trials = 20
+print(f"---- Demonstrating Asymptotic Tightness with True p = {true_p} ---\n")
+print(f"{'Trials (n)':>12}  {'Successes (k)':>14} | {'Observed p (k/n)':>18} | {'KL Diveregence':>15}")
+print("-"*70)
 
-# Create an instance of the process
+for n in trial_counts:
+    process.run(n)
 
-coin_toss_process = BernoulliProcess(p = p_heads)
+    k = process.get_partial_sum()
+    observed_p = k/n
+    divergence = process.kl_divergence()
 
-# --- Run the Simulation --- 
-print(f"Simulating a biased coin toss ({num_trials} times) with P(Heads) = {p_heads}...\n")
-outcomes = coin_toss_process.run(n = num_trials)
+    print(f"{n:>12,} | {k:>14,} | {observed_p:>18.6f} | {divergence:>15.10f}")
 
-# --- calculate and display statistics --- 
-total_heads = coin_toss_process.num_successes()
-first_head_trial = coin_toss_process.trials_for_first_success()
 
-print(f"\n--- Results ---")
-print(f"Total number of Heads (Successes) : {total_heads} out of {num_trials}")
-
-if first_head_trial is not None:
-    print(f"The first Head occurred on trial number: {first_head_trial}")
-else:
-    print("No Heads occurred in this run.")
